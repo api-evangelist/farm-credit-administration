@@ -3,9 +3,9 @@ url: https://raw.githubusercontent.com/api-evangelist/farm-credit-administration
 apis: []
 name: Farm Credit Administration
 tags:
-  - Federal Government
-  - Farms
   - Agriculture
+  - Farms
+  - Federal Government
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
