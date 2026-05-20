@@ -16,6 +16,8 @@ tags:
   - Regulation
 apis: []
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/farm-credit-administration
   - type: Website
     url: https://www.fca.gov/
   - type: FCS Data Portal
