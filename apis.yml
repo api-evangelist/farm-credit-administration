@@ -16,6 +16,8 @@ tags:
   - Regulation
 apis: []
 common:
+  - type: DomainSecurity
+    url: security/farm-credit-administration-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/farm-credit-administration
   - type: Website
