@@ -1,0 +1,64 @@
+generated: '2026-09-07'
+method: probed
+source: >-
+  Live error responses observed against https://wgis.fca.gov/arcgis/rest/services/FCA on 2026-09-07.
+  FCA publishes no error reference; these were elicited by deliberately malformed requests and are
+  recorded verbatim.
+format: esri-json
+rfc9457: false
+rfc9457_note: >-
+  Not RFC 9457. No application/problem+json media type is served anywhere on this surface. The
+  envelope is Esri's proprietary {"error":{code,message,details}} object.
+envelope:
+  path: error
+  fields:
+    code: HTTP-like integer status carried INSIDE the body
+    message: human-readable string
+    details: array of strings (empty on every observed response)
+    extendedCode: Esri internal negative integer, present on some 400s
+status_code_caveat: >-
+  CRITICAL FOR AGENTS: the observed error responses were returned with HTTP 200. The transport
+  status is not the outcome. A caller must parse the body and check for the `error` key before
+  treating a 200 as success. This is the single largest correctness trap on this API.
+problem_types:
+  - code: 404
+    title: Service not found
+    message: Service not found
+    observed_request: GET /arcgis/rest/services/FCA/nosuch/MapServer?f=json
+    http_status_observed: 200
+    cause: >-
+      The named service does not exist in the folder. Only branches, hq and regions exist under
+      /FCA (see arcgis/farm-credit-administration-arcgis-fca-folder.json).
+    remediation: >-
+      Enumerate /arcgis/rest/services/FCA?f=json and use a name from services[].name verbatim.
+  - code: 400
+    extendedCode: -2147220985
+    title: Unable to complete operation
+    message: Unable to complete operation.
+    observed_request: GET /arcgis/rest/services/FCA/hq/MapServer/0/query?where=BOGUS&f=json
+    http_status_observed: 200
+    cause: >-
+      Malformed where clause. `where` takes a SQL-92 predicate; a bare token is not one. The
+      message does not say which parameter failed — details[] is empty.
+    remediation: >-
+      Send a valid predicate (where=1%3D1 for all rows, or where=STATE%3D%27IA%27). Field names
+      must match the layer descriptor exactly; they are case-sensitive and upper-case on these
+      layers.
+non_error_conditions:
+  - name: exceededTransferLimit
+    where: top level of a successful /query response
+    meaning: >-
+      The result set was truncated at maxRecordCount (1000). This is NOT an error and carries no
+      error object — it is a silent partial result. An agent that ignores it will believe it has
+      the full set. Observed true on a 3-record request in
+      examples/farm-credit-administration-hq-query-json.json because the underlying set is larger.
+    remediation: Page with resultOffset / resultRecordCount until exceededTransferLimit is absent or false.
+  - name: html-instead-of-json
+    where: any endpoint called without f=json
+    meaning: >-
+      HTTP 200 with an HTML Services Directory page. Not an error object, not data. See
+      conventions/farm-credit-administration-conventions.yml#content_negotiation.
+gaps:
+  - No published error reference, error code registry, or troubleshooting page.
+  - details[] is empty on every observed error, so no machine-actionable remediation is returned.
+  - No correlation/request id is returned, so an error cannot be reported back to FCA with a reference.

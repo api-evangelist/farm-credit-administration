@@ -1,0 +1,79 @@
+generated: '2026-09-07'
+method: derived
+source: >-
+  Derived from the verbatim ArcGIS service and layer descriptors in arcgis/, fetched from
+  https://wgis.fca.gov/arcgis/rest/services/FCA on 2026-09-07.
+status: candidate
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: none
+  verified: derived
+note: >-
+  FCA ships NO MCP server, hosted or local. Searched fca.gov, the MCP registry ecosystem and npm/PyPI;
+  nothing exists. mode: none and no endpoint is recorded — a guessed URL here would read as a
+  verified agent surface, which is the worst possible artifact. No MCPServer pointer is emitted
+  against a candidate.
+  The tools below are a CANDIDATE shape only: what an MCP server over FCA's existing anonymous map
+  services could offer, with each tool bound to a real, probed endpoint. Every endpoint listed was
+  called successfully on 2026-09-07; none of the tool names exists anywhere today.
+derived_from:
+  - arcgis/farm-credit-administration-arcgis-services-root.json
+  - arcgis/farm-credit-administration-arcgis-fca-folder.json
+  - arcgis/farm-credit-administration-hq-layer0.json
+  - arcgis/farm-credit-administration-branches-layer0.json
+  - arcgis/farm-credit-administration-regions-layer0.json
+candidate_tools:
+  - name: list_fcs_map_services
+    description: List the Farm Credit System map services FCA publishes.
+    backing_endpoint: GET https://wgis.fca.gov/arcgis/rest/services/FCA?f=json
+    probed_status: 200
+    inputs: []
+  - name: find_institution_headquarters
+    description: >-
+      Find Farm Credit System institution headquarters (ACA/FLCA) by state, city, county or UNINUM.
+      Returns charter address, phone, CEO and chair surnames, institution website and coordinates.
+    backing_endpoint: GET https://wgis.fca.gov/arcgis/rest/services/FCA/hq/MapServer/0/query
+    probed_status: 200
+    inputs:
+      - {name: where, type: string, note: "SQL-92 predicate over CHARTER_ST / CHARTER_CI / COUNTY / UNINUM"}
+      - {name: outFields, type: string, default: '*'}
+      - {name: resultOffset, type: integer}
+      - {name: resultRecordCount, type: integer, max: 1000}
+      - {name: f, type: string, enum: [json, geojson, pbf], required: true}
+    known_row_count: 55
+  - name: find_branch_offices
+    description: >-
+      Find Farm Credit System branch offices by state, city, county, ZIP or FIPS code. Returns
+      institution name, address, phone and coordinates.
+    backing_endpoint: GET https://wgis.fca.gov/arcgis/rest/services/FCA/branches/MapServer/0/query
+    probed_status: 200
+    inputs:
+      - {name: where, type: string, note: "SQL-92 predicate over STATE / CITY / COUNTY / ZIP_5 / FIPS / UNINUM"}
+      - {name: outFields, type: string, default: '*'}
+      - {name: resultOffset, type: integer}
+      - {name: resultRecordCount, type: integer, max: 1000}
+      - {name: f, type: string, enum: [json, geojson, pbf], required: true}
+  - name: get_chartered_territory
+    description: >-
+      Return the chartered-territory polygon for an FCS institution, as GeoJSON, given its UNINUM.
+    backing_endpoint: GET https://wgis.fca.gov/arcgis/rest/services/FCA/regions/MapServer/0/query
+    probed_status: 200
+    inputs:
+      - {name: where, type: string, note: "e.g. UNINUM=710812"}
+      - {name: f, type: string, enum: [json, geojson, pbf], required: true}
+gaps_an_mcp_server_would_have_to_solve:
+  - >-
+      Errors arrive with HTTP 200 and the real code inside the body; a tool wrapper must inspect
+      `error` before returning success.
+  - >-
+      Truncation is signalled only by "exceededTransferLimit": true, with no cursor; a tool wrapper
+      must page on resultOffset or it will silently return partial answers.
+  - >-
+      Omitting f=json returns an HTML page with HTTP 200.
+  - >-
+      The financial data an agent would actually want (Call Reports) is not on this API at all — it
+      is a quarterly bulk download joined on UNINUM. See
+      data-model/farm-credit-administration-data-model.yml.

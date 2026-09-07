@@ -1,0 +1,47 @@
+generated: '2026-09-07'
+method: probed
+source: >-
+  https://wgis.fca.gov/arcgis/rest/info?f=json (fetched 2026-09-07, HTTP 200) plus anonymous
+  request/response observation against the FCA map services.
+summary: >-
+  The public FCA map services require NO credential. Every service definition, layer definition and
+  /query call in arcgis/ and examples/ was made anonymously and returned 200. The ArcGIS Server
+  behind them does advertise token-based security for privileged operations, so the token service is
+  recorded here as the escalation path, not as a requirement for public reads.
+schemes:
+  - id: anonymous
+    type: none
+    applies_to:
+      - GET /arcgis/rest/services
+      - GET /arcgis/rest/services/FCA
+      - GET /arcgis/rest/services/FCA/{service}/MapServer
+      - GET /arcgis/rest/services/FCA/{service}/MapServer/{layerId}
+      - GET /arcgis/rest/services/FCA/{service}/MapServer/{layerId}/query
+    verified: probed
+    evidence: >-
+      https://wgis.fca.gov/arcgis/rest/services/FCA/hq/MapServer/0/query?where=1=1&returnCountOnly=true&f=json
+      returned {"count":55} with no Authorization header and no token parameter.
+  - id: arcgis-token
+    type: token
+    style: query parameter or header (Esri ArcGIS Server token)
+    token_service: https://wgis.fca.gov/arcgis/tokens/
+    short_lived_token_validity_minutes: 60
+    required_for_public_read: false
+    scope_note: >-
+      Reported by the server itself in /arcgis/rest/info as
+      authInfo.isTokenBasedSecurity=true, tokenServicesUrl=https://wgis.fca.gov/arcgis/tokens/,
+      shortLivedTokenValidity=60. This governs administrative and secured services; the three FCA
+      folder services are open.
+oauth2: false
+openid_connect: false
+mutual_tls: false
+api_keys: false
+docs: null
+docs_note: >-
+  FCA publishes no authentication documentation of any kind for this surface, because it publishes no
+  developer documentation of any kind for it. The auth model above was established by probing, not by
+  reading. The generic protocol reference is Esri's (ArcGIS REST API), not FCA's.
+gaps:
+  - No developer portal, API reference, or getting-started page names these endpoints.
+  - No /.well-known/oauth-authorization-server or openid-configuration on any FCA host.
+  - No rate-limit, quota or terms-of-use statement attached to the anonymous read surface.

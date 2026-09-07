@@ -1,16 +1,47 @@
-generated: '2026-07-11'
+generated: '2026-09-07'
 method: probed
-source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+source: >-
+  live DNS/TLS/HTTP probes of apis.yml hosts, the ArcGIS REST API host, and every host named in
+  FCA's own Vulnerability Disclosure Policy scope section
 hosts:
-- host: www.fca.gov
-  https: true
-  tls_version: TLSv1.3
-  cert_expires: Nov  1 23:59:59 2026 GMT
-  hsts: null
+  - host: www.fca.gov
+    https: true
+    tls_version: TLSv1.3
+    cert_expires: '2026-11-01'
+    hsts: null
+    note: >-
+      The public www site is the ONLY probed FCA host with no Strict-Transport-Security header;
+      every application host below sets max-age=31536000; preload.
+  - host: wgis.fca.gov
+    https: true
+    tls_version: TLSv1.2
+    cert_issuer: Entrust OV TLS Issuing RSA CA 2
+    cert_expires: '2027-01-08'
+    hsts: max-age=31536000; preload
+    role: ArcGIS REST API host (the record's only machine-readable API surface)
+  - host: apps.fca.gov
+    https: true
+    tls_version: TLSv1.2
+    cert_issuer: Entrust OV TLS Issuing RSA CA 2
+    cert_expires: '2027-02-12'
+    hsts: max-age=31536000; preload
+    role: FCS Public Directory + Locator web applications
+  - host: reports.fca.gov
+    https: true
+    tls_version: TLSv1.2
+    cert_issuer: Entrust OV TLS Issuing RSA CA 2
+    cert_expires: '2026-12-11'
+    hsts: max-age=31536000; preload
+    role: Consolidated Reporting System (CRS) call-report web application
+  - host: ww4.fca.gov
+    https: null
+    note: >-
+      DNS resolves to 4.79.206.89 but TCP connect to 443 and 80 times out from the public internet.
+      Could not be probed. This is the host behind FCA's own "FCS Data Portal" link.
 domains:
-- domain: fca.gov
-  dnssec: true
-  caa: []
-  spf: true
-  dmarc: true
-  dmarc_policy: reject
+  - domain: fca.gov
+    dnssec: true
+    caa: []
+    spf: true
+    dmarc: true
+    dmarc_policy: reject

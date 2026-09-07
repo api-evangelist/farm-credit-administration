@@ -1,0 +1,82 @@
+# Farm Credit Administration (FCA)
+
+> Independent US federal agency that regulates and examines the Farm Credit System (FCS) — a
+> nationwide network of cooperatively owned banks and associations lending to farmers, ranchers,
+> agricultural cooperatives and rural infrastructure — and the Federal Agricultural Mortgage
+> Corporation (Farmer Mac).
+
+Generated 2026-09-07 by the API Evangelist enrichment pipeline from apis.yml and the artifacts in
+this repository. FCA does not publish an llms.txt; https://www.fca.gov/llms.txt returned 404.
+
+## What is actually machine-readable
+
+FCA publishes no OpenAPI, no developer portal and no API documentation. It does serve ONE live,
+anonymous, machine-readable API — an Esri ArcGIS Server REST surface that is not linked from any
+"developers" or "data" page and is discoverable only by probing:
+
+- [FCS map services directory](https://wgis.fca.gov/arcgis/rest/services/FCA?f=json): lists the
+  three published services. No key, no account.
+- [Institution headquarters](https://wgis.fca.gov/arcgis/rest/services/FCA/hq/MapServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json):
+  55 ACA/FLCA headquarters with charter address, phone, county, CEO and chair surnames, institution
+  website, coordinates. Keyed on UNINUM.
+- [Branch offices](https://wgis.fca.gov/arcgis/rest/services/FCA/branches/MapServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json):
+  branch locations with address, city/state/ZIP, county, FIPS.
+- [Chartered territories](https://wgis.fca.gov/arcgis/rest/services/FCA/regions/MapServer/0/query?where=1%3D1&f=geojson):
+  institution territory polygons, available as GeoJSON.
+- [Server info](https://wgis.fca.gov/arcgis/rest/info?f=json): ArcGIS Server 12.0, token service at
+  https://wgis.fca.gov/arcgis/tokens/ (not needed for public reads).
+
+Always send `f=json` or `f=geojson`. Without it these endpoints return an HTML page with HTTP 200.
+Errors also return HTTP 200 with the real code inside a top-level `error` object. Truncated result
+sets are flagged only by `"exceededTransferLimit": true`; the page cap is 1000 rows.
+
+## Bulk data (not an API)
+
+- [Call report data for download](https://www.fca.gov/bank-oversight/call-report-data-for-download):
+  quarterly comma-delimited text, every quarter back to March 2000 (June 2026 is the latest posted),
+  ~72 files per quarter including `D_*` layout files and `INST0600.TXT`, which carries UNINUM.
+- [FCS call reports](https://www.fca.gov/bank-oversight/fcs-call-reports): what the reports contain.
+- [Report descriptions](https://www.fca.gov/bank-oversight/report-descriptions)
+- [Call report disclosures](https://www.fca.gov/bank-oversight/call-report-disclosures)
+- [Consolidated Reporting System reports](https://www.fca.gov/bank-oversight/consolidated-reporting-system-reports)
+- [Farmer Mac financial data](https://www.fca.gov/farmer-mac-oversight/farmer-mac-financial-data)
+
+UNINUM is the join key between the map services and the call report files. FCA does not document
+that join; it is observable in both datasets.
+
+## Web applications (HTML only, no API)
+
+- [FCS Public Directory search](https://apps.fca.gov/FCSPublicDirectory/PubSearchInstitution.aspx)
+- [FCS institutions by system and district](https://apps.fca.gov/FCSPublicDirectory/PubViewInstitutionsBySysDist.aspx)
+- [Consolidated Reporting System — institution search](https://reports.fca.gov/CRS/search-institution.aspx)
+- [Consolidated Reporting System — system-wide report selector](https://reports.fca.gov/CRS/SystemWideReportSelector.aspx)
+- [FCS directory & map](https://www.fca.gov/bank-oversight/fcs-directory-map)
+
+## Regulation and guidance
+
+- [Laws & regulations](https://www.fca.gov/laws-and-regulations/laws-regulations)
+- [FCA Handbook (statutes, regulations, board policy)](https://ww3.fca.gov/readingrm/Handbook/FCA%20Regulation/Forms/AllItems.aspx)
+- [Examination manual](https://ww3.fca.gov/readingrm/exammanual/SitePages/Home.aspx)
+- [Regulatory projects plan](https://www.fca.gov/laws-and-regulations/regulatory-projects-plan)
+- [Public comments](https://www.fca.gov/laws-and-regulations/public-comments)
+- [Informational memorandums](https://ww3.fca.gov/readingrm/infomemo/Lists/InformationMemorandums/By%20Memorandum%20Date.aspx)
+
+## Policy and transparency
+
+- [Vulnerability Disclosure Policy](https://www.fca.gov/required-notices/vulnerability-disclosure-policy) — BOD 20-01, report to security_vdp@fca.gov, 90-day coordinated disclosure, no bounty
+- [Digital strategy](https://www.fca.gov/required-notices/digital-strategy) — still lists "make high-value data available through web APIs" as Not begun, due 2013
+- [FCA and the Open Gov Initiative](https://www.fca.gov/data) — chief data officer, data governance
+- [Freedom of Information Act](https://www.fca.gov/required-notices/freedom-of-information-act)
+- [Privacy program](https://www.fca.gov/required-notices/privacy-program)
+- [FCA's use of artificial intelligence](https://www.fca.gov/required-notices/fcas-use-of-artificial-intelligence)
+- [Newsroom](https://www.fca.gov/newsroom/news)
+- [Contact us](https://www.fca.gov/utility-pages/contact-us)
+
+## Known gaps
+
+- No OpenAPI, AsyncAPI, GraphQL, gRPC or WSDL contract of FCA's own.
+- No /.well-known/ document on any FCA host, including no security.txt despite a published VDP.
+- No MCP server, agent card, SDK, CLI, changelog, status page or deprecation policy.
+- No /data.json, so FCA's datasets carry no DCAT-US description.
+- https://ww4.fca.gov/sites/fcsdataportal — FCA's own "FCS Data Portal" link — did not answer on
+  2026-09-07 (DNS resolves; TCP connect times out on 443 and 80).

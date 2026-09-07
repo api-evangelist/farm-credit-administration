@@ -1,0 +1,128 @@
+generated: '2026-09-07'
+method: probed
+source: >-
+  Live probes of fca.gov, wgis.fca.gov and ww3.fca.gov on 2026-09-07, plus the verbatim ArcGIS
+  descriptors in arcgis/. Nothing below is a marketing claim; each entry names the URL that
+  established it.
+regime: Government & Public Sector (US federal independent agency)
+conformance:
+  - id: geojson
+    name: GeoJSON (RFC 7946)
+    conforms: true
+    evidence: >-
+      https://wgis.fca.gov/arcgis/rest/services/FCA/hq/MapServer/0/query?...&f=geojson returned
+      HTTP 200 with Content-Type application/geo+json; charset=UTF-8 and a valid FeatureCollection.
+      Saved verbatim at examples/farm-credit-administration-hq-query-geojson.json. All three layers
+      advertise supportedQueryFormats "JSON, geoJSON, PBF".
+    note: >-
+      This is the one open, non-proprietary interchange standard FCA's API surface actually speaks.
+      A consumer who already reads GeoJSON needs no Esri-specific connector for the spatial data.
+  - id: ogc-api-features
+    name: OGC API - Features
+    conforms: false
+    evidence: >-
+      No /conformance endpoint exists under https://wgis.fca.gov/arcgis/rest/services/FCA and no
+      conformsTo[] with opengis.net class URIs was returned anywhere on the host.
+  - id: ogc-wms
+    name: OGC Web Map Service (GetCapabilities)
+    conforms: false
+    evidence: >-
+      https://wgis.fca.gov/arcgis/services/FCA/{branches,hq,regions}/MapServer/WMSServer?request=GetCapabilities&service=WMS
+      returned HTTP 400 on all three services, and each service descriptor reports an empty
+      supportedExtensions. The Esri WMS/WFS extensions are not enabled.
+  - id: ogc-wfs
+    name: OGC Web Feature Service (GetCapabilities)
+    conforms: false
+    evidence: >-
+      https://wgis.fca.gov/arcgis/services/FCA/{branches,hq,regions}/MapServer/WFSServer?request=GetCapabilities&service=WFS
+      returned HTTP 400 on all three services.
+  - id: rfc9457
+    name: Problem Details for HTTP APIs (RFC 9457)
+    conforms: false
+    evidence: >-
+      Errors are returned as Esri {"error":{code,message,details}} with HTTP 200. No
+      application/problem+json is served. See errors/farm-credit-administration-problem-types.yml.
+  - id: openapi
+    name: OpenAPI
+    conforms: false
+    evidence: >-
+      /openapi.json, /openapi.yaml, /swagger.json, /api-docs and /api returned 404 on www.fca.gov,
+      apps.fca.gov, reports.fca.gov and wgis.fca.gov. No OpenAPI description of the ArcGIS surface
+      is published by FCA.
+  - id: dcat-us
+    name: DCAT-US / Project Open Data (/data.json)
+    conforms: false
+    evidence: >-
+      https://www.fca.gov/data.json returned HTTP 404 (also 404 at fca.gov/data.json and
+      /data/data.json). FCA serves no Project Open Data catalog, so its datasets carry no DCAT
+      description for data.gov to harvest. Note that catalog.data.gov's CKAN action API returned
+      404 on 2026-09-07, so the downstream side of this could not be independently confirmed.
+  - id: ckan
+    name: CKAN open-data portal API
+    conforms: false
+    evidence: FCA operates no CKAN instance; no /api/3/action surface on any probed FCA host.
+  - id: fedramp
+    name: FedRAMP authorization
+    conforms: false
+    evidence: >-
+      No FedRAMP claim, marketplace listing reference, or trust page found on fca.gov. As a federal
+      agency FCA is the consumer side of FedRAMP, not an authorized cloud service offering.
+  - id: eidas
+    name: eIDAS
+    conforms: false
+    evidence: Not applicable — US federal agency, no EU identity surface.
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: false
+    evidence: >-
+      No oauth2 scheme on the public surface; /.well-known/oauth-authorization-server 404s on every
+      FCA host. The ArcGIS Server advertises its own short-lived token service
+      (https://wgis.fca.gov/arcgis/tokens/), which is not OAuth.
+  - id: oidc
+    name: OpenID Connect
+    conforms: false
+    evidence: /.well-known/openid-configuration returned 404 on every probed FCA host.
+  - id: rfc9116
+    name: security.txt (RFC 9116)
+    conforms: false
+    evidence: >-
+      /.well-known/security.txt returned 404 on www.fca.gov, fca.gov, apps.fca.gov, reports.fca.gov,
+      wgis.fca.gov and ss.fca.gov, and 500 on ww3.fca.gov — even though FCA publishes a full
+      BOD 20-01 Vulnerability Disclosure Policy at
+      https://www.fca.gov/required-notices/vulnerability-disclosure-policy with the contact
+      security_vdp@fca.gov. The policy exists; the machine-readable pointer to it does not.
+  - id: odata
+    name: OData
+    conforms: false
+    evidence: >-
+      https://ww3.fca.gov/_vti_bin/client.svc/$metadata returns HTTP 200 with a 784KB EDMX
+      document, and _vti_bin/{lists,sites,search}.asmx?wsdl return real WSDLs — but every one of
+      those is Microsoft SharePoint's own product contract (targetNamespace
+      schemas.microsoft.com/sharepoint/soap, Schema Namespace "SP"), shipped identically by every
+      SharePoint farm on earth. It describes SharePoint, not anything FCA designed or published,
+      and the data behind it is gated (/_api/web returns 401). Recorded as observed-but-not-owned
+      rather than credited to FCA. See STEP 0c ownership discipline.
+domain_standards:
+  - id: geojson
+    market: geospatial / civic data
+    declared_in: >-
+      supportedQueryFormats on every layer descriptor
+      (arcgis/farm-credit-administration-{branches,hq,regions}-layer0.json) and confirmed on the
+      wire by Content-Type application/geo+json.
+    conforms: true
+  - id: us-census-fips
+    market: US government reference data
+    declared_in: >-
+      FIPS and STATE_FIPS fields on BRANCH_OFFICES_POINT
+      (arcgis/farm-credit-administration-branches-layer0.json)
+    conforms: true
+    note: >-
+      FCA reuses the federal FIPS county/state coding scheme rather than inventing one, so branch
+      records join directly to Census, USDA and other federal datasets with no crosswalk.
+summary:
+  conforms_count: 3
+  probed: 15
+  headline: >-
+    One real open standard on the wire (GeoJSON) plus reuse of federal FIPS coding; no OGC, no
+    OpenAPI, no DCAT-US, no security.txt. FCA's regulatory-regime shortlist (dcat, ckan, eidas,
+    fedramp, open-data-charter) is entirely unmet.

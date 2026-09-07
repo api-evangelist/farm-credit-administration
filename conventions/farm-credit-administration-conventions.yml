@@ -1,0 +1,134 @@
+generated: '2026-09-07'
+method: probed
+source: >-
+  Derived from live anonymous requests against https://wgis.fca.gov/arcgis/rest/services/FCA on
+  2026-09-07 and from the verbatim service/layer descriptors saved in arcgis/. FCA publishes no
+  API conventions document; every value below was observed, not read.
+surface:
+  style: REST-ish (Esri ArcGIS Server 12.0 REST), read-only
+  base: https://wgis.fca.gov/arcgis/rest/services/FCA
+  transport: HTTPS only (HSTS max-age=31536000; preload)
+  server: Microsoft-IIS/10.0 / ASP.NET
+auth:
+  style: anonymous for all public reads
+  see: authentication/farm-credit-administration-authentication.yml
+content_negotiation:
+  mechanism: query parameter, not Accept header
+  parameter: f
+  values:
+    - html  # default; returns the Services Directory page, NOT the machine-readable body
+    - json
+    - geojson
+    - pbf
+  gotcha: >-
+    Omitting f=json returns an HTML page with HTTP 200. Any agent that trusts the status code
+    without setting f=json will parse a web page as data. This is the single most important
+    convention on this surface.
+  observed:
+    - request: GET .../MapServer/0/query?...&f=json
+      content_type: application/json; charset=UTF-8
+    - request: GET .../MapServer/0/query?...&f=geojson
+      content_type: application/geo+json; charset=UTF-8
+pagination:
+  style: offset/limit via query parameters
+  params:
+    limit: resultRecordCount
+    offset: resultOffset
+  server_max_per_page: 1000        # maxRecordCount on all three services
+  max_selection: 2000              # maxSelectionCount on all three services
+  more_results_indicator: exceededTransferLimit
+  more_results_note: >-
+    A truncated response carries "exceededTransferLimit": true at the top level (observed in
+    examples/farm-credit-administration-hq-query-json.json). There is no cursor and no next link;
+    the caller increments resultOffset.
+  count_only: 'returnCountOnly=true returns {"count": n}'
+filtering:
+  where: SQL-92 style WHERE clause on the layer's attribute fields (e.g. where=STATE='IA')
+  field_selection: outFields (comma list, or * for all)
+  geometry_suppression: returnGeometry=false
+  spatial: geometry / geometryType / spatialRel / inSR / outSR supported by the layer
+error_envelope:
+  format: proprietary Esri JSON, NOT RFC 9457
+  http_status_note: >-
+    Errors are returned with HTTP 200 in the observed cases; the real code is inside the body.
+    Agents must parse the body.
+  shape:
+    error:
+      code: integer
+      message: string
+      details: array
+      extendedCode: integer (optional)
+  observed:
+    - request: GET /arcgis/rest/services/FCA/nosuch/MapServer?f=json
+      body: '{"error":{"code":404,"details":[],"message":"Service not found"}}'
+    - request: GET /arcgis/rest/services/FCA/hq/MapServer/0/query?where=BOGUS&f=json
+      body: '{"error":{"code":400,"extendedCode":-2147220985,"message":"Unable to complete operation.","details":[]}}'
+  see: errors/farm-credit-administration-problem-types.yml
+caching:
+  etag: true
+  etag_observed: '"2501314f"'
+  cache_control: must-revalidate,max-age=0,public
+  conditional_requests: supported via If-None-Match
+  note: Conditional GETs are the only published efficiency affordance on this surface.
+versioning:
+  scheme: platform version, not API version
+  current_version: '12.0'
+  reported_by: /arcgis/rest/info and every service descriptor (currentVersion)
+  path_versioning: false
+  header_versioning: false
+  note: >-
+    There is no FCA-owned version identifier. The only version number on the wire is the Esri
+    product version, which FCA does not control and does not announce.
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: null
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header was returned on any observed response, and
+    no limit is documented. See rate-limits/farm-credit-administration-rate-limits.yml.
+request_id_tracing:
+  header: null
+  note: No correlation/request-id header was returned on any observed response.
+metadata_and_expansion:
+  sparse_fields: outFields
+  expansion: not applicable (flat feature attributes, no nested resources)
+  custom_metadata: not supported
+idempotency:
+  coverage: na
+  mechanism: null
+  header: null
+  scope: []
+  rationale: >-
+    The surface is read-only. Capabilities on all three services are "Map,Query,Data" — no Create,
+    Update, Delete or Editing capability is advertised, and no write endpoint was found. GET is
+    idempotent by definition, so there is no replay hazard and no Idempotency-Key mechanism to
+    document. This is an honest `na`, not a zero. No `Idempotency` pointer is emitted.
+dry_run_mode:
+  coverage: na
+  rationale: >-
+    Read-only surface; there is no mutation to rehearse. returnCountOnly=true is the nearest
+    analogue and is a real read, not a simulation.
+reversibility:
+  coverage: na
+  grade: na
+  write_surfaces: []
+  reversal_operations: []
+  window: null
+  rationale: >-
+    FCA's public map services expose no write surface at all — no POST/PUT/PATCH/DELETE endpoint,
+    no applyEdits, no FeatureServer. Nothing an agent can do here needs taking back, so
+    reversibility, dry_run_mode and idempotency are all `na` rather than failures. Verified from the
+    capabilities string ("Map,Query,Data") on all three MapServers and from the absence of any
+    FeatureServer in the services directory
+    (arcgis/farm-credit-administration-arcgis-services-root.json,
+    arcgis/farm-credit-administration-arcgis-fca-folder.json).
+  data_correction_path: >-
+    Because the data is regulatory record rather than user-writable state, the correction path is
+    administrative, not an API call: Consolidated Reporting System submissions from the institutions
+    (https://www.fca.gov/bank-oversight/submit-data-to-fca) and, for the public, FOIA
+    (https://www.fca.gov/required-notices/freedom-of-information-act).
+cross_links:
+  errors: errors/farm-credit-administration-problem-types.yml
+  authentication: authentication/farm-credit-administration-authentication.yml
+  rate_limits: rate-limits/farm-credit-administration-rate-limits.yml
+  lifecycle: lifecycle/farm-credit-administration-lifecycle.yml
+  data_model: data-model/farm-credit-administration-data-model.yml

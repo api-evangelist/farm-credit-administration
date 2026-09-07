@@ -1,0 +1,79 @@
+generated: '2026-09-07'
+method: searched
+source: >-
+  https://www.fca.gov/required-notices/digital-strategy,
+  https://www.fca.gov/bank-oversight/call-report-data-for-download,
+  https://www.fca.gov/bank-oversight/fcs-call-reports, plus live probes of the ArcGIS surface.
+versioning:
+  scheme: none
+  api_version: null
+  platform_version: '12.0'
+  platform_version_source: https://wgis.fca.gov/arcgis/rest/info?f=json
+  note: >-
+    FCA owns no version identifier for this surface. The only number on the wire is the Esri ArcGIS
+    Server product version, which FCA neither controls nor announces. A breaking platform upgrade
+    would reach consumers with no notice.
+data_release_cadence:
+  cadence: quarterly
+  basis: >-
+    FCS Call Report data is published quarterly; the download page lists every quarter back to
+    March 2000, most recently June 2026. The map layers carry EffectiveDate / MONTH / YEAR fields
+    on the same reporting cycle.
+  latest_observed: June 2026
+  archive: >-
+    1984-1999 call report data is on the FCA Archives page; the map services keep no history
+    (archivingInfo.supportsHistoricMoment = false on all three).
+deprecation_policy:
+  present: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation policy, no Sunset/Deprecation headers, no advance-notice commitment for any
+    machine-readable surface. No Deprecation pointer is emitted.
+status_page:
+  present: false
+  url: null
+  note: >-
+    FCA operates no status page or uptime feed for any of the nine hosts it names in its own VDP
+    scope. No StatusPage pointer is emitted. This is not a formality: ww4.fca.gov, the host behind
+    FCA's own "FCS Data Portal" link, has been unreachable throughout this pass with nowhere for a
+    consumer to check whether that is expected.
+sla:
+  present: false
+changelog:
+  present: false
+  note: >-
+    No dated changelog, release notes or "what's new" feed for data or services. The nearest thing
+    is the newsroom (https://www.fca.gov/newsroom/news), which covers regulatory news, not data or
+    interface changes. No ChangeLog pointer is emitted.
+observed_decay:
+  - item: FCS Data Portal
+    url: https://ww4.fca.gov/sites/fcsdataportal
+    status: 000
+    finding: >-
+      Linked from https://www.fca.gov/bank-oversight/institution,
+      https://www.fca.gov/bank-oversight/fcs-directory-map and apps.fca.gov/Locator/. DNS resolves
+      to 4.79.206.89 but TCP connect to both 443 and 80 timed out on every attempt on 2026-09-07.
+      The pointer was removed from apis.yml rather than left asserting a page that does not answer.
+      FCA still links it from at least three of its own pages.
+  - item: FCA digital strategy commitments
+    url: https://www.fca.gov/required-notices/digital-strategy
+    status: 200
+    finding: >-
+      FCA's own published digital strategy still carries item 1.2 "Make open data, content, web
+      APIs and agency.gov/developer the new default" — Due May 23, 2013, Status "Not begun" — and
+      item 2.2 "Make existing high-value data and content available through web APIs" — Due May 23,
+      2013, Status "Not begun". The page itself was last updated May 30, 2018. This is FCA stating,
+      on its own site, that its web-API commitments are thirteen years past due and unstarted. It
+      is the clearest first-party explanation available for why this profile has no OpenAPI.
+  - item: apis.yml link rot
+    finding: >-
+      Three pointers carried in this record 404'd on 2026-09-07 —
+      /news-publications/news-releases, /laws-regulations/federal-register-notices and
+      /laws-regulations/regulations. All three were repaired against fca.gov's own sitemap.xml in
+      this pass (see apis.yml).
+migration_notes:
+  - >-
+      The institution-facing surfaces have moved to apps.fca.gov (FCS Public Directory, Locator) and
+      reports.fca.gov (Consolidated Reporting System). Both are live; neither is machine-readable.

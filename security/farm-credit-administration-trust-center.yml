@@ -1,0 +1,20 @@
+generated: '2026-09-07'
+method: probed
+source: >-
+  Searched fca.gov required-notices, privacy program and website-notices sections for a trust
+  center or a named certification program.
+trust_center:
+  present: false
+  url: null
+certifications: []
+note: >-
+  FCA is an independent US federal agency, not a commercial vendor. It publishes no trust center and
+  claims no SOC 2 / ISO 27001 / PCI / HIPAA / FedRAMP certification — as a federal agency it is
+  covered instead by FISMA, NIST SP 800-53 and OMB A-130, none of which it advertises as a
+  certification on its public site. Recording an honest absence: no TrustCenter and no Compliance
+  pointer is emitted from this file.
+evidence:
+  - url: https://www.fca.gov/required-notices/web-site-notices-and-policies
+    status: 200
+  - url: https://www.fca.gov/required-notices/privacy-program
+    status: 200

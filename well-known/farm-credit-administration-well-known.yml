@@ -1,0 +1,188 @@
+generated: '2026-09-07'
+method: probed
+source: >-
+  Anonymous HTTPS probes of the named /.well-known/ path list on every host the record knows,
+  plus every host named in FCA's own Vulnerability Disclosure Policy scope section
+  (https://www.fca.gov/required-notices/vulnerability-disclosure-policy).
+note: >-
+  NOTHING WAS SERVED. Every named /.well-known/ path either 404s, 500s, or answers 200 with an
+  HTML page rather than a document. No WellKnown, SecurityTxt, APICatalog or AgentCard pointer is
+  emitted from this file — it records an absence, not a presence. ww3.fca.gov is the textbook false
+  positive: its SharePoint catch-all answers 200 with a ~12.5KB HTML shell for every /.well-known/
+  path including agent-card.json, agent.json, ai-plugin.json and aauth-resource.json. Those are
+  recorded as html_shell: true and treated as misses. ww4.fca.gov (the FCS Data Portal host named in
+  FCA's VDP scope and linked from fca.gov) resolves to 4.79.206.89 but never completes a TCP
+  handshake on 443 or 80 from the public internet, so it could not be probed at all.
+hosts:
+  - host: www.fca.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+  - host: fca.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+  - host: wgis.fca.gov
+    note: >-
+      The one FCA host that actually serves a machine-readable API (ArcGIS REST Services Directory,
+      see arcgis/). It publishes no /.well-known/ documents.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+  - host: apps.fca.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+  - host: reports.fca.gov
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+  - host: ww3.fca.gov
+    note: >-
+      SharePoint catch-all. The four 200s below are ~12.5KB HTML pages, not documents; they are
+      the dominant false positive on this probe and are NOT counted as hits.
+    documents:
+      - path: /.well-known/security.txt
+        status: 500
+      - path: /.well-known/openid-configuration
+        status: 500
+      - path: /.well-known/oauth-authorization-server
+        status: 500
+      - path: /.well-known/oauth-protected-resource
+        status: 500
+      - path: /.well-known/api-catalog
+        status: 500
+      - path: /.well-known/ai-plugin.json
+        status: 200
+        html_shell: true
+        counted_as: miss
+      - path: /.well-known/agent-card.json
+        status: 200
+        html_shell: true
+        counted_as: miss
+      - path: /.well-known/agent.json
+        status: 200
+        html_shell: true
+        counted_as: miss
+      - path: /.well-known/aauth-resource.json
+        status: 200
+        html_shell: true
+        counted_as: miss
+  - host: ss.fca.gov
+    note: >-
+      Third-party staff password self-service product (SysOp Tools Password Reset PRO) running on an
+      FCA host. Not an FCA API surface.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+  - host: ww4.fca.gov
+    note: >-
+      Not probeable. DNS resolves (4.79.206.89) but TCP connect to 443 and 80 times out repeatedly
+      from the public internet. status 000 means no response, not a 404.
+    documents:
+      - path: /.well-known/security.txt
+        status: 000
+      - path: /.well-known/agent-card.json
+        status: 000
+summary:
+  hosts_probed: 8
+  paths_probed_per_host: 9
+  documents_served: 0
+  html_shell_false_positives: 4
+  unreachable_hosts: 1

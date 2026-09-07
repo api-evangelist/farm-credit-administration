@@ -1,0 +1,276 @@
+generated: '2026-09-07'
+method: derived
+source: arcgis/farm-credit-administration-{branches,hq,regions}-layer0.json (verbatim ArcGIS layer descriptors
+  fetched from wgis.fca.gov on 2026-09-07)
+note: There is no OpenAPI to derive from. This entity graph is derived from the field definitions the
+  ArcGIS layers publish about themselves, which are the only machine-readable schema FCA serves. No field,
+  type or relationship below was invented; each is present in the saved descriptor.
+identifier_scheme:
+  UNINUM:
+    meaning: Each Farm Credit System institution's unique identifier, assigned by FCA.
+    note: UNINUM is the join key across this whole estate. It appears on all three map layers AND in INST0600.TXT
+      inside every quarterly Call Report download (https://www.fca.gov/bank-oversight/call-report-data-for-download),
+      which is how the spatial surface and the financial surface are related. FCA does not state this
+      anywhere as an API contract; it is observable in both datasets.
+    observed_example: 710812
+  SYSTEM / DIST / ASSOC: Three-level organisational coding (system, district, association) carried on
+    the branches and hq layers.
+  FIPS / STATE_FIPS: US Census FIPS county and state codes on the branches layer — an external identifier
+    scheme FCA reuses rather than invents.
+entities:
+- name: BRANCH_OFFICES_POINT
+  service: branches
+  endpoint: https://wgis.fca.gov/arcgis/rest/services/FCA/branches/MapServer/0
+  geometry_type: esriGeometryPoint
+  primary_key: OBJECTID
+  business_key: UNINUM
+  field_count: 24
+  fields:
+  - name: OBJECTID
+    esri_type: esriFieldTypeOID
+    type: integer
+  - name: ID
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: UNINUM
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: SHORTNAME
+    esri_type: esriFieldTypeString
+    type: string
+    length: 29
+  - name: NAME
+    esri_type: esriFieldTypeString
+    type: string
+    length: 84
+  - name: ADDRESS
+    esri_type: esriFieldTypeString
+    type: string
+    length: 60
+  - name: CITY
+    esri_type: esriFieldTypeString
+    type: string
+    length: 50
+  - name: STATE
+    esri_type: esriFieldTypeString
+    type: string
+    length: 2
+  - name: ZIP
+    esri_type: esriFieldTypeString
+    type: string
+    length: 10
+  - name: ZIP_5
+    esri_type: esriFieldTypeString
+    type: string
+    length: 10
+  - name: SYSTEM
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: DIST
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: ASSOC
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: LONGITUDE
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: LATITUDE
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: PHONE
+    esri_type: esriFieldTypeString
+    type: string
+    length: 50
+  - name: COUNTY
+    esri_type: esriFieldTypeString
+    type: string
+    length: 50
+  - name: FIPS
+    esri_type: esriFieldTypeString
+    type: string
+    length: 5
+  - name: STATE_FIPS
+    esri_type: esriFieldTypeString
+    type: string
+    length: 2
+  - name: InstName
+    esri_type: esriFieldTypeString
+    type: string
+    length: 90
+  - name: EffectiveDate
+    esri_type: esriFieldTypeDate
+    type: string (epoch milliseconds)
+    length: 8
+  - name: MONTH
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: YEAR
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: Shape
+    esri_type: esriFieldTypeGeometry
+    type: geometry
+- name: ACA_FLCA_HEADQUARTER_POINT
+  service: hq
+  endpoint: https://wgis.fca.gov/arcgis/rest/services/FCA/hq/MapServer/0
+  geometry_type: esriGeometryPoint
+  primary_key: OBJECTID
+  business_key: UNINUM
+  field_count: 24
+  fields:
+  - name: OBJECTID
+    esri_type: esriFieldTypeOID
+    type: integer
+  - name: UNINUM
+    esri_type: esriFieldTypeInteger
+    type: integer
+  - name: SYSTEM
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: DIST
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: ASSOC
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: SHORTNAME
+    esri_type: esriFieldTypeString
+    type: string
+    length: 58
+  - name: CHARTER_AD
+    esri_type: esriFieldTypeString
+    type: string
+    length: 76
+  - name: CHARTER_CI
+    esri_type: esriFieldTypeString
+    type: string
+    length: 32
+  - name: CHARTER_ST
+    esri_type: esriFieldTypeString
+    type: string
+    length: 4
+  - name: CHARTER_ZI
+    esri_type: esriFieldTypeString
+    type: string
+    length: 5
+  - name: PHONE
+    esri_type: esriFieldTypeString
+    type: string
+    length: 24
+  - name: COUNTY
+    esri_type: esriFieldTypeString
+    type: string
+    length: 20
+  - name: CEO_LNAME
+    esri_type: esriFieldTypeString
+    type: string
+    length: 22
+  - name: CHAIR_LNAM
+    esri_type: esriFieldTypeString
+    type: string
+    length: 22
+  - name: WEB_URL
+    esri_type: esriFieldTypeString
+    type: string
+    length: 72
+  - name: LONGITUDE
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: LATITUDE
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: POINT_X
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: POINT_Y
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: MONTH
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: YEAR
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: InstName
+    esri_type: esriFieldTypeString
+    type: string
+    length: 90
+  - name: EffectiveDate
+    esri_type: esriFieldTypeDate
+    type: string (epoch milliseconds)
+    length: 8
+  - name: Shape
+    esri_type: esriFieldTypeGeometry
+    type: geometry
+- name: ACA_FLCA_Institutions_REGION
+  service: regions
+  endpoint: https://wgis.fca.gov/arcgis/rest/services/FCA/regions/MapServer/0
+  geometry_type: esriGeometryPolygon
+  primary_key: OBJECTID
+  business_key: UNINUM
+  field_count: 8
+  fields:
+  - name: OBJECTID
+    esri_type: esriFieldTypeOID
+    type: integer
+  - name: UNINUM
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: MONTH
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: YEAR
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: EffectiveDate
+    esri_type: esriFieldTypeDate
+    type: string (epoch milliseconds)
+    length: 8
+  - name: Shape
+    esri_type: esriFieldTypeGeometry
+    type: geometry
+  - name: Shape.STArea()
+    esri_type: esriFieldTypeDouble
+    type: number
+  - name: Shape.STLength()
+    esri_type: esriFieldTypeDouble
+    type: number
+relationships:
+- from: ACA_FLCA_HEADQUARTER_POINT
+  to: BRANCH_OFFICES_POINT
+  type: has_many
+  via: UNINUM
+  confidence: high
+  evidence: UNINUM present on both layers; branch rows also carry InstName/SHORTNAME matching the headquarters
+    row.
+- from: ACA_FLCA_HEADQUARTER_POINT
+  to: ACA_FLCA_Institutions_REGION
+  type: has_one
+  via: UNINUM
+  confidence: high
+  evidence: UNINUM present on both layers; the region polygon is the chartered territory of the institution
+    headquartered at the hq point.
+- from: ACA_FLCA_HEADQUARTER_POINT
+  to: FCS Call Report (INST0600.TXT)
+  type: has_many
+  via: UNINUM
+  confidence: medium
+  evidence: FCA documents UNINUM as the institution identifier in the call report file layout at https://www.fca.gov/bank-oversight/call-report-data-for-download.
+    The join is not served by any API; it must be made client-side against the downloadable text files.
+temporal:
+  fields:
+  - EffectiveDate
+  - MONTH
+  - YEAR
+  note: All three layers carry an effective date plus MONTH/YEAR, matching the quarterly Call Report reporting
+    cycle. There is no history/archive endpoint (archivingInfo.supportsHistoricMoment = false on all three
+    services), so only the current snapshot is queryable.
+spatial_reference:
+  wkid: 102100
+  latestWkid: 3857
+  name: WGS 84 / Pseudo-Mercator
+output_formats:
+- JSON
+- geoJSON
+- PBF

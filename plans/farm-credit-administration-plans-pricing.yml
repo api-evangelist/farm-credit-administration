@@ -1,0 +1,28 @@
+generated: '2026-09-07'
+method: searched
+source: https://www.fca.gov/data
+plan_count: 0
+pricing_model: free-public-government-data
+paid_tiers: false
+signup_required: false
+api_key_required: false
+plans: []
+note: >-
+  FCA is an independent US federal agency. It publishes no pricing page, no plans, no metering and
+  no commercial terms, because it sells nothing: the Farm Credit System data it holds is public
+  regulatory record, funded by assessments on the institutions it regulates. Every surface found in
+  this pass — the ArcGIS map services at wgis.fca.gov, the quarterly Call Report downloads, the FCS
+  Public Directory and the Consolidated Reporting System — is anonymous and free at the point of
+  use, with no registration step of any kind. plan_count: 0 here means "genuinely nothing to
+  charge for", not "pricing not found".
+access_conditions:
+  - Free
+  - No account
+  - No API key
+  - No stated quota (see rate-limits/farm-credit-administration-rate-limits.yml)
+evidence:
+  - url: https://www.fca.gov/data
+    status: 200
+  - url: https://wgis.fca.gov/arcgis/rest/services/FCA/hq/MapServer/0/query?where=1%3D1&returnCountOnly=true&f=json
+    status: 200
+    note: Returned {"count":55} with no credential of any kind.

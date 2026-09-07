@@ -1,0 +1,43 @@
+generated: '2026-09-07'
+method: probed
+source: >-
+  Response headers and service descriptors observed against
+  https://wgis.fca.gov/arcgis/rest/services/FCA on 2026-09-07. FCA publishes no rate-limit
+  documentation for any surface.
+limit_count: 0
+documented: false
+note: >-
+  FCA documents no rate limit, quota, throttle or fair-use policy for its public map services, and
+  returns no runtime signal. An agent has no way to know how hard it may call, and no way to know
+  it has been throttled other than by failing. The result-set caps below are real published limits,
+  but they are PAGINATION caps, not rate limits — they are recorded separately so they are not
+  mistaken for one.
+response_headers:
+  rate_limit_headers: []
+  retry_after: false
+  observed_headers:
+    - cache-control: must-revalidate,max-age=0,public
+    - etag
+    - strict-transport-security
+    - x-content-type-options
+    - vary
+  observed_on: >-
+    HEAD https://wgis.fca.gov/arcgis/rest/services/FCA/hq/MapServer?f=json (HTTP/2 200)
+status_on_exhaustion: null
+result_set_caps:
+  - name: maxRecordCount
+    value: 1000
+    scope: per /query response, all three services
+    source: arcgis/farm-credit-administration-{branches,hq,regions}-mapserver.json
+    signal: '"exceededTransferLimit": true in the response body'
+  - name: maxSelectionCount
+    value: 2000
+    scope: per selection operation, all three services
+    source: arcgis/farm-credit-administration-{branches,hq,regions}-mapserver.json
+  - name: maxImageWidth / maxImageHeight
+    value: 4096
+    scope: per export image request
+    source: arcgis/farm-credit-administration-{branches,hq,regions}-mapserver.json
+provider_gap: >-
+  Publishing even a single sentence of fair-use guidance, or emitting RateLimit-* headers, would be
+  the cheapest agent-readiness improvement available on this surface.

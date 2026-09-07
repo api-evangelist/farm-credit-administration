@@ -13,73 +13,200 @@ deliveryModel:
   generated: '2026-08-28'
   method: derived
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: free
+  onboarding: none
   trial: false
-  try_now: false
-  public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  try_now: true
+  public: true
+  label: Free and fully public — no account, no key, no quota published
+  confidence: high
+  source:
+  - https://wgis.fca.gov/arcgis/rest/services/FCA?f=json
+  - https://wgis.fca.gov/arcgis/rest/services/FCA/hq/MapServer/0/query?where=1%3D1&returnCountOnly=true&f=json
+  - https://www.fca.gov/data
+  generated: '2026-09-07'
+  method: probed
+  note: Upgraded from unknown/derived. The FCA map services answered anonymously with HTTP 200 on 2026-09-07
+    — no Authorization header, no token, no registration step. FCA is a federal agency and charges nothing;
+    see plans/farm-credit-administration-plans-pricing.yml.
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/farm-credit-administration.png
 type: Index
 access: 3rd-Party
-position: Consuming
+position: Producing
 created: '2024-12-25'
-modified: '2026-04-28'
+modified: '2026-09-07'
 specificationVersion: '0.23'
 tags:
-  - Agriculture
-  - Farms
-  - Federal-Government
-  - Finance
-  - Regulations
+- Agriculture
+- Farms
+- Federal-Government
+- Finance
+- Regulations
+- Geospatial
+- Open-Data
+- Banking
+- Lending
+- Government
 tags_raw:
+- Agriculture
+- Farms
+- Federal Government
+- Finance
+- Regulation
+- Geospatial
+- Open Data
+- Banking
+- Lending
+- Government
+apis:
+- name: FCA Farm Credit System Map Services
+  description: 'Public, anonymous Esri ArcGIS Server 12.0 REST services publishing the geography of the
+    Farm Credit System: 55 ACA/FLCA institution headquarters (charter address, phone, county, CEO and
+    chair surnames, institution website), branch offices (address, city/state/ZIP, county, FIPS) and chartered-territory
+    polygons. Output as JSON, GeoJSON (application/geo+json) or PBF. No API key, no account, no documented
+    rate limit. Read-only: capabilities are Map,Query,Data on all three services. FCA publishes no OpenAPI
+    or reference for this surface — every endpoint, field and behaviour recorded here was probed on 2026-09-07
+    and the verbatim service and layer descriptors are saved under arcgis/.'
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/farm-credit-administration.png
+  humanURL: https://wgis.fca.gov/arcgis/rest/services/FCA
+  baseURL: https://wgis.fca.gov/arcgis/rest/services/FCA
+  tags:
+  - Geospatial
   - Agriculture
-  - Farms
-  - Federal Government
-  - Finance
-  - Regulation
-apis: []
+  - Banking
+  - Open-Data
+  - Federal-Government
+  properties:
+  - type: Reference
+    url: arcgis/farm-credit-administration-arcgis-rest-info.json
+  - type: Reference
+    url: arcgis/farm-credit-administration-arcgis-services-root.json
+  - type: Reference
+    url: arcgis/farm-credit-administration-arcgis-fca-folder.json
+  - type: Reference
+    url: arcgis/farm-credit-administration-hq-mapserver.json
+  - type: Reference
+    url: arcgis/farm-credit-administration-hq-layer0.json
+  - type: Reference
+    url: arcgis/farm-credit-administration-branches-mapserver.json
+  - type: Reference
+    url: arcgis/farm-credit-administration-branches-layer0.json
+  - type: Reference
+    url: arcgis/farm-credit-administration-regions-mapserver.json
+  - type: Reference
+    url: arcgis/farm-credit-administration-regions-layer0.json
+  - type: Examples
+    url: examples/farm-credit-administration-hq-query-json.json
+  - type: Examples
+    url: examples/farm-credit-administration-branches-query-json.json
+  - type: Examples
+    url: examples/farm-credit-administration-hq-query-geojson.json
+  - type: Authentication
+    url: authentication/farm-credit-administration-authentication.yml
+  - type: Conventions
+    url: conventions/farm-credit-administration-conventions.yml
+  - type: ErrorCatalog
+    url: errors/farm-credit-administration-problem-types.yml
+  - type: DataModel
+    url: data-model/farm-credit-administration-data-model.yml
+  - type: RateLimits
+    url: rate-limits/farm-credit-administration-rate-limits.yml
 common:
-  - type: DomainSecurity
-    url: security/farm-credit-administration-domain-security.yml
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/farm-credit-administration
-  - type: Website
-    url: https://www.fca.gov/
-  - type: FCS Data Portal
-    url: https://ww4.fca.gov/sites/fcsdataportal
-  - type: Call Reports
-    url: https://www.fca.gov/bank-oversight/fcs-call-reports
-  - type: Institution Search
-    url: https://www.fca.gov/bank-oversight/institution
-  - type: Reading Room
-    url: https://www.fca.gov/about/reading-room
-  - type: FOIA
-    url: https://www.fca.gov/about/foia
-  - type: News and Press Releases
-    url: https://www.fca.gov/news-publications/news-releases
-  - type: Federal Register Notices
-    url: https://www.fca.gov/laws-regulations/federal-register-notices
-  - type: Examination Manual
-    url: https://www.fca.gov/bank-oversight/examination-manual
-  - type: Regulations
-    url: https://www.fca.gov/laws-regulations/regulations
-  - type: Careers
-    url: https://www.fca.gov/about/careers
-description: >-
-  The Farm Credit Administration (FCA) is an independent federal agency
-  responsible for regulating and supervising the Farm Credit System, a
-  nationwide network of cooperatively owned institutions that provide credit
-  and financial services to farmers, ranchers, and other agricultural
-  borrowers. The FCA ensures that the Farm Credit System operates in a safe
-  and sound manner and provides fair and competitive services. FCA does not
-  publish a public REST API; however, the FCS Data Portal and downloadable
-  Call Reports provide programmatic access to financial data on Farm Credit
-  System institutions.
+- type: DomainSecurity
+  url: security/farm-credit-administration-domain-security.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/farm-credit-administration
+- type: Website
+  url: https://www.fca.gov/
+- type: Call Reports
+  url: https://www.fca.gov/bank-oversight/fcs-call-reports
+- type: Examination Manual
+  url: https://www.fca.gov/bank-oversight/examination-manual
+- type: Data
+  url: https://www.fca.gov/data
+- type: Support
+  url: https://www.fca.gov/utility-pages/contact-us
+- type: PrivacyPolicy
+  url: https://www.fca.gov/required-notices/web-site-notices-and-policies
+- type: Security
+  url: security/farm-credit-administration-vulnerability-disclosure.yml
+- type: VulnerabilityDisclosure
+  url: security/farm-credit-administration-vulnerability-disclosure.yml
+- type: SecurityPolicy
+  url: https://www.fca.gov/required-notices/vulnerability-disclosure-policy
+- type: Institution Search
+  url: https://apps.fca.gov/FCSPublicDirectory/PubSearchInstitution.aspx
+- type: Institution Directory
+  url: https://apps.fca.gov/FCSPublicDirectory/PubViewInstitutionsBySysDist.aspx
+- type: FCS Directory and Map
+  url: https://www.fca.gov/bank-oversight/fcs-directory-map
+- type: Consolidated Reporting System
+  url: https://reports.fca.gov/CRS/SystemWideReportSelector.aspx
+- type: Call Report Data Download
+  url: https://www.fca.gov/bank-oversight/call-report-data-for-download
+- type: News
+  url: https://www.fca.gov/newsroom/news
+- type: Federal Register Documents
+  url: https://ww3.fca.gov/readingrm/fedreg/Federal%20Register%20Documents/Forms/FCA.aspx
+- type: Regulations
+  url: https://www.fca.gov/laws-and-regulations/fca-regulations
+- type: Laws and Regulations
+  url: https://www.fca.gov/laws-and-regulations/laws-regulations
+- type: FCA Handbook
+  url: https://ww3.fca.gov/readingrm/Handbook/FCA%20Regulation/Forms/AllItems.aspx
+- type: Reading Room
+  url: https://ww3.fca.gov/readingrm/infomemo/Lists/InformationMemorandums/By%20Memorandum%20Date.aspx
+- type: FOIA
+  url: https://www.fca.gov/required-notices/freedom-of-information-act
+- type: Careers
+  url: https://www.fca.gov/about/careers-at-fca
+- type: Digital Strategy
+  url: https://www.fca.gov/required-notices/digital-strategy
+- type: Reports and Publications
+  url: https://www.fca.gov/about/reports-publications
+- type: Regulatory Projects Plan
+  url: https://www.fca.gov/laws-and-regulations/regulatory-projects-plan
+- type: YouTube
+  url: https://www.youtube.com/channel/UCMLBjEdJAom6CaT3xRWV6oQ
+- type: LLMsTxt
+  url: llms/farm-credit-administration-llms.txt
+- type: Authentication
+  url: authentication/farm-credit-administration-authentication.yml
+- type: Conventions
+  url: conventions/farm-credit-administration-conventions.yml
+- type: ErrorCatalog
+  url: errors/farm-credit-administration-problem-types.yml
+- type: DataModel
+  url: data-model/farm-credit-administration-data-model.yml
+- type: Conformance
+  url: conformance/farm-credit-administration-conformance.yml
+- type: RateLimits
+  url: rate-limits/farm-credit-administration-rate-limits.yml
+- type: Plans
+  url: plans/farm-credit-administration-plans-pricing.yml
+- type: Lifecycle
+  url: lifecycle/farm-credit-administration-lifecycle.yml
+- type: Packages
+  url: packages/farm-credit-administration-packages.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Examples
+  url: examples/farm-credit-administration-hq-query-geojson.json
+description: 'The Farm Credit Administration (FCA) is an independent US federal agency that regulates
+  and examines the Farm Credit System (FCS) — a nationwide network of cooperatively owned banks and associations
+  providing credit and financial services to farmers, ranchers, agricultural cooperatives and rural infrastructure
+  — and the Federal Agricultural Mortgage Corporation (Farmer Mac). FCA publishes no developer portal,
+  no API documentation and no OpenAPI, and its own digital strategy still lists "make existing high-value
+  data and content available through web APIs" as Not begun, due May 2013. It does, however, serve one
+  live, anonymous, machine-readable API that is linked from no developer page: an Esri ArcGIS Server REST
+  surface at wgis.fca.gov publishing Farm Credit System institution headquarters, branch offices and chartered-territory
+  polygons as JSON, GeoJSON and PBF, keyed on the UNINUM institution identifier that also keys the quarterly
+  Call Report bulk downloads.'
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-07'
+  status: enriched
+  artifacts_added: 28
+  pass: local-v3

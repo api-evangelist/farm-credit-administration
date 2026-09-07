@@ -1,0 +1,20 @@
+generated: '2026-09-07'
+method: derived
+source: >-
+  Grounded in the verbatim ArcGIS descriptors in arcgis/ and in live 200 responses observed on
+  2026-09-07. FCA publishes no OpenAPI and no skills of its own.
+skills:
+  - name: fcs-institution-lookup
+    file: skills/farm-credit-administration-fcs-institution-lookup.md
+    description: >-
+      Look up Farm Credit System institutions, branch offices and chartered territories from FCA's
+      public ArcGIS map services, and join them to the quarterly Call Report bulk files on UNINUM.
+    api: FCA Farm Credit System Map Services
+    base: https://wgis.fca.gov/arcgis/rest/services/FCA
+    auth: none
+    operations:
+      - GET /arcgis/rest/services/FCA?f=json
+      - GET /arcgis/rest/services/FCA/hq/MapServer/0?f=json
+      - GET /arcgis/rest/services/FCA/hq/MapServer/0/query
+      - GET /arcgis/rest/services/FCA/branches/MapServer/0/query
+      - GET /arcgis/rest/services/FCA/regions/MapServer/0/query

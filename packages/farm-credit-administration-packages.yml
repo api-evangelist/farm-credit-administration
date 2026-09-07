@@ -1,0 +1,52 @@
+generated: '2026-09-07'
+method: searched
+source: >-
+  npm, PyPI, RubyGems, crates.io, NuGet, Maven Central, pkg.go.dev and CRAN searched for a
+  first-party Farm Credit Administration client; plus https://crandb.r-pkg.org/fcall for the
+  third-party package below.
+official_sdk_count: 0
+package_count: 1
+note: >-
+  FCA publishes NO client library on any registry, and no GitHub organization exists
+  (https://api.github.com/orgs/fca-gov returned 404, and a GitHub user/org search for "farm credit
+  administration" returned nothing). No SDKs pointer is emitted from this file — the only package
+  below is community-built, and crediting FCA with someone else's SDK would be false. It is
+  recorded because it is, in practice, the only maintained client for FCA data and because its
+  release date is real currency evidence about the underlying dataset.
+packages:
+  - name: fcall
+    registry: cran
+    language: R
+    official: false
+    owner: Ketchbrook Analytics
+    authors:
+      - Michael Thomas
+      - Ivan Millanes
+    version: 0.1.6
+    published: '2025-12-10'
+    homepage: https://ketchbrookanalytics.github.io/fcall/
+    repository: https://github.com/ketchbrookanalytics/fcall
+    bug_reports: https://github.com/ketchbrookanalytics/fcall/issues
+    description: >-
+      Downloads files from the FCA Call Report archive and parses the comma-delimited text into
+      tidy R data frames.
+    covers:
+      - https://www.fca.gov/bank-oversight/call-report-data-for-download
+    does_not_cover:
+      - The ArcGIS map services at wgis.fca.gov (see arcgis/)
+    note: >-
+      Third-party. The existence of a maintained community parser for a bulk .txt download is
+      itself the finding: consumers want this data programmatically and are building the client
+      layer FCA has not.
+first_party_distribution:
+  - channel: bulk file download
+    url: https://www.fca.gov/bank-oversight/call-report-data-for-download
+    format: self-extracting archives of comma-delimited .txt data files plus D_*.TXT layout files
+    versioned: by quarter, back to March 2000
+    registry: null
+    version: null
+    published: '2026-06-30'
+    published_note: >-
+      version is null because a quarterly file drop has no package version; `published` is the
+      reporting period of the most recent posted quarter (June 2026) as listed on the download
+      page, not a registry timestamp.
