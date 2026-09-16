@@ -43,7 +43,7 @@ tags:
 - Finance
 - Regulations
 - Geospatial
-- Open-Data
+- Open Data
 - Banking
 - Lending
 - Government
@@ -71,6 +71,12 @@ apis:
   humanURL: https://wgis.fca.gov/arcgis/rest/services/FCA
   baseURL: https://wgis.fca.gov/arcgis/rest/services/FCA
   tags:
+  - Geospatial
+  - Agriculture
+  - Banking
+  - Open Data
+  - Federal-Government
+  tags_raw:
   - Geospatial
   - Agriculture
   - Banking
