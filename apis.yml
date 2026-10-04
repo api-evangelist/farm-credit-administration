@@ -39,7 +39,7 @@ specificationVersion: '0.23'
 tags:
 - Agriculture
 - Farms
-- Federal-Government
+- Federal Government
 - Finance
 - Regulations
 - Geospatial
@@ -58,6 +58,7 @@ tags_raw:
 - Banking
 - Lending
 - Government
+- Federal-Government
 apis:
 - name: FCA Farm Credit System Map Services
   description: 'Public, anonymous Esri ArcGIS Server 12.0 REST services publishing the geography of the
@@ -75,7 +76,7 @@ apis:
   - Agriculture
   - Banking
   - Open Data
-  - Federal-Government
+  - Federal Government
   tags_raw:
   - Geospatial
   - Agriculture
