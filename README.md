@@ -1,4 +1,4 @@
-# Farm Credit Administration (farm-credit-administration)
+# Farm Credit Administration
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,45 +64,114 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-The Farm Credit Administration (FCA) is an independent federal agency responsible for regulating and supervising the Farm Credit System, a nationwide network of cooperatively owned institutions that provide credit and financial services to farmers, ranchers, and other agricultural borrowers. The FCA ensures that the Farm Credit System operates in a safe and sound manner and provides fair and competitive services. FCA does not publish a public REST API; however, the FCS Data Portal and downloadable Call Reports provide programmatic access to financial data on Farm Credit System institutions.
+The Farm Credit Administration (FCA) is an independent US federal agency that regulates and examines the Farm Credit System (FCS) — a nationwide network of cooperatively owned banks and associations providing credit and financial services to farmers, ranchers, agricultural cooperatives and rural infrastructure — and the Federal Agricultural Mortgage Corporation (Farmer Mac). FCA publishes no developer portal, no API documentation and no OpenAPI, and its own digital strategy still lists "make existing high-value data and content available through web APIs" as Not begun, due May 2013. It does, however, serve one live, anonymous, machine-readable API that is linked from no developer page: an Esri ArcGIS Server REST surface at wgis.fca.gov publishing Farm Credit System institution headquarters, branch offices and chartered-territory polygons as JSON, GeoJSON and PBF, keyed on the UNINUM institution identifier that also keys the quarterly Call Report bulk downloads.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/farm-credit-administration/refs/heads/main/apis.yml)
+**Areas:** Agriculture · Farms · Federal Government · Finance · Regulations · Geospatial · Open Data · Banking · Lending · Government
 
-## Scope
+## Farm Credit Administration on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for Farm Credit Administration is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/farm-credit-administration/](https://apis.io/providers/farm-credit-administration/)** — or go straight to one of the APIs or properties below.
 
-## Tags:
+### APIs (1)
 
- - Agriculture, Farms, Federal Government, Finance, Regulation
+- [FCA Farm Credit System Map Services](https://apis.io/apis/farm-credit-administration/fca-farm-credit-system-map-services/) — Public, anonymous Esri ArcGIS Server 12.0 REST services publishing the geography of the Farm Credit System: 55 ACA/FLCA institution headquarters (charter…
 
-## Timestamps
+### Published properties
 
-- **Created:** 2024-12-25
-- **Modified:** 2026-04-28
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### MCP servers (1)
 
-No public REST API is currently published by the Farm Credit Administration. Bulk financial and institutional data is available via the FCS Data Portal and Call Reports.
+Model Context Protocol servers that expose the API to agents.
 
-## Common Properties
+- [farm-credit-administration-mcp.yml](https://apis.io/servers/farm-credit-administration/farm-credit-administration-mcp-yml/)
+
+#### Examples (3)
+
+Example requests and responses.
+
+- [Farm Credit Administration Branches Query Json](https://apis.io/examples/farm-credit-administration/farm-credit-administration-branches-query-json/)
+- [Farm Credit Administration Hq Query Geojson](https://apis.io/examples/farm-credit-administration/farm-credit-administration-hq-query-geojson/)
+- [Farm Credit Administration Hq Query Json](https://apis.io/examples/farm-credit-administration/farm-credit-administration-hq-query-json/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Farm Credit Administration Authentication](https://apis.io/security/farm-credit-administration/farm-credit-administration-authentication/)
+- [Farm Credit Administration Domain Security](https://apis.io/security/farm-credit-administration/farm-credit-administration-domain-security/)
+- [Farm Credit Administration Trust Center](https://apis.io/security/farm-credit-administration/farm-credit-administration-trust-center/)
+- [Farm Credit Administration Vulnerability Disclosure](https://apis.io/security/farm-credit-administration/farm-credit-administration-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Farm Credit Administration Plans Pricing](https://apis.io/plans/farm-credit-administration/farm-credit-administration-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Farm Credit Administration Rate Limits](https://apis.io/rate-limits/farm-credit-administration/farm-credit-administration-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.fca.gov/)
-- [FCS Data Portal](https://ww4.fca.gov/sites/fcsdataportal)
-- [Call Reports](https://www.fca.gov/bank-oversight/fcs-call-reports)
-- [Institution Search](https://www.fca.gov/bank-oversight/institution)
-- [Reading Room](https://www.fca.gov/about/reading-room)
-- [FOIA](https://www.fca.gov/about/foia)
-- [News and Press Releases](https://www.fca.gov/news-publications/news-releases)
-- [Federal Register Notices](https://www.fca.gov/laws-regulations/federal-register-notices)
-- [Examination Manual](https://www.fca.gov/bank-oversight/examination-manual)
-- [Regulations](https://www.fca.gov/laws-regulations/regulations)
-- [Careers](https://www.fca.gov/about/careers)
+- [Support](https://www.fca.gov/utility-pages/contact-us)
+- [Privacy policy](https://www.fca.gov/required-notices/web-site-notices-and-policies)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
+**Kin Score 21.8** — emerging · rubric 0.24.0 · scored 2026-10-17
 
-**Email:** kin@apievangelist.com
+| Facet | Score |
+|---|---|
+| Discoverability | 74.1 |
+| Contract quality | 6.5 |
+| Contract governance | 18.2 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 25.6 |
+| Access clarity | 10.5 |
+
+**Agent readiness 10.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 26.5** — Government & Public Sector
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/farm-credit-administration/](https://apis.io/providers/farm-credit-administration/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Farm Credit Administration: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/farm-credit-administration/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
